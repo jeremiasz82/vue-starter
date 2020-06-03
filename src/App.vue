@@ -1,26 +1,17 @@
-<template>
-   <div>
-        <h1>Witaj w systemie do zapisów na zajęcia</h1>
-        
-          
-        <div v-if="authenticatedUsername">
-            <h2>Witaj {{ authenticatedUsername }}</h2>
-            <a @click="logMeOut()">Wyloguj</a>
-            <h4>dodaj spotkanie</h4>
-            <meeting-page @meeting="addNewMeeting($event)"></meeting-page>
-        </div>
-        <div v-else>
-            <login-form @login="logMeIn($event)" button-label="Wejdź"></login-form>
-          
-             
-        </div>
-     
-        
-		
-   </div>
 
-  
-    
+<template>
+  <div >
+	<h1>Witaj w systemie do zapisów na zajęcia</h1>
+    <div v-if="authenticatedUsername">
+      <h2>Witaj {{ authenticatedUsername }}!
+        <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
+      </h2>
+      <meeting-page :username="authenticatedUsername"></meeting-page>
+    </div>
+    <div v-else>
+      <login-form @login="login($event)"></login-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,40 +20,22 @@
     import MeetingPage from "./meetings/MeetingPage";
 
     export default {
-        components: {LoginForm,MeetingPage},
+        components: {LoginForm, MeetingPage},
         data() {
             return {
-                authenticatedUsername: '',
-                meeting:'',
-            }
+                authenticatedUsername: ""
+            };
         },
         methods: {
-            logMeIn(username) {
-                this.authenticatedUsername = username;
+            login(user) {
+                this.authenticatedUsername = user.login;
             },
-            logMeOut() {
+            logout() {
                 this.authenticatedUsername = '';
             }
-        }   
-    }
- 
-</script>
-<!-- <script>
-    import "milligram";
-    import MeetingPage from "./meetings/MeetingPage";
-
-    export default {
-        components: {MeetingPage},
-        data() {
-            return {
-                meeting: '',
-            }
-        },
-        methods: {
-            NewMeeting(meeting) {
-                this.meeting = meeting;
-            },
-
         }
-    }
-</script> -->
+    };
+</script>
+
+
+ 

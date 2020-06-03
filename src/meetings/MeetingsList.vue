@@ -4,19 +4,39 @@
             <tr>
                 <th>Nazwa spotkania</th>
                 <th>Opis</th>
+                <th>Uczestnicy</th>
             </tr>
+                
         </thead>
-        <tbody>
-            <tr v-for="meeting in meetings" :key="meeting.name">
-                <td>{{ meeting.name }}</td>
-                <td>{{ meeting.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+         <tbody>
+    <tr v-for="meeting in meetings" :key="meeting.name">
+      <td>{{ meeting.name }}</td>
+      <td>{{ meeting.description }}</td>
+      <td>
+        <ul v-if="meeting.participants">
+          <li v-for="participant in meeting.participants" :key="participant">
+            {{ participant }}
+          </li>
+        </ul>
+      </td>
+      <td >
+        <button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"
+                @click="$emit('attend', meeting)">
+          Dopisz sie
+        </button>
+        <button v-else class="button-outline" @click="$emit('unattend', meeting)">wypisz sie</button>
+        <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">
+          Usun spotkanie
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
-export default {
-    props: ['meetings']
-}
+    export default {
+        props: ['meetings', 'username']
+    }
 </script>
+

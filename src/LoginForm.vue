@@ -1,30 +1,32 @@
 <template>
-    <div>
- 
-        <label>Zaloguj się e-mailem</label>
-       
-        <input type="email" v-model="email">
-        <button @click="enter()">{{ buttonLabelToDisplay }}</button>
-    </div>
+  <form @submit.prevent="enter()">
+    <label>Login</label>
+    <input type="text" v-model="user.login">
+    
+    <button type="submit">{{ labelOfTheButton }}</button>
+  </form>
 </template>
 
 <script>
     export default {
-        props: ['buttonLabel'],
+        props: ["buttonLabel"],
         data() {
             return {
-                email: ''
-            }
+                user: {}
+            };
         },
         methods: {
             enter() {
-                this.$emit('login', this.email);
+                this.$emit("login", this.user);
             }
         },
-		computed: {
-			buttonLabelToDisplay() {
-			return this.buttonLabel || 'Zaloguj się';  
-			}
-		}
-		}
+        computed: {
+            labelOfTheButton() {
+                return this.buttonLabel || 'Zaloguj się';
+            }
+        }
+    };
 </script>
+
+
+
